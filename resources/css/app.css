@@ -16,6 +16,7 @@
     --color-gh-btn-bg: var(--gh-btn-bg);
     --color-gh-btn-border: var(--gh-btn-border);
     --color-gh-code-bg: var(--gh-code-bg);
+    --color-gh-global-header-bg: var(--gh-global-header-bg);
     --color-gh-contribution-level-0: var(--gh-contribution-level-0);
     --color-gh-contribution-level-1: var(--gh-contribution-level-1);
     --color-gh-contribution-level-2: var(--gh-contribution-level-2);
@@ -29,7 +30,8 @@
     --gh-text: #24292f;
     --gh-link: #0969da;
     --gh-border: #d0d7de;
-    --gh-header-bg: #f6f8fa;
+    --gh-header-bg: #f6f8fa; /* Subheader / Repo Header */
+    --gh-global-header-bg: #24292f; /* Top Navbar */
     --gh-canvas-subtle: #f6f8fa;
     --gh-btn-bg: #f6f8fa;
     --gh-btn-border: rgba(27, 31, 36, 0.15);
@@ -50,6 +52,7 @@
         --gh-link: #58a6ff;
         --gh-border: #30363d;
         --gh-header-bg: #161b22;
+        --gh-global-header-bg: #161b22;
         --gh-canvas-subtle: #161b22;
         --gh-btn-bg: #21262d;
         --gh-btn-border: #363b42;
