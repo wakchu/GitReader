@@ -161,7 +161,7 @@ export default function LibraryIndex({ books }: { books: Book[] }) {
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2 font-semibold text-blue-500 hover:underline cursor-pointer truncate">
                                              <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" className="fill-gray-500"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"></path></svg>
-                                             <span className="truncate">{book.title}</span>
+                                             <Link href={`/${book.id}`} className="truncate">{book.title}</Link>
                                         </div>
                                         <span className="text-xs text-gray-400 border border-gh-border rounded-xl px-2">Public</span>
                                     </div>
@@ -172,7 +172,7 @@ export default function LibraryIndex({ books }: { books: Book[] }) {
                                             <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
                                             <span>EPUB</span>
                                         </div>
-                                        {book.total_chapters > 0 && <div className="hover:text-blue-500 cursor-pointer">{book.total_chapters} chapters</div>}
+                                        {book.total_chapters > 0 && <Link href={`/${book.id}`} className="hover:text-blue-500 cursor-pointer">{book.total_chapters} chapters</Link>}
                                     </div>
                                 </div>
                             ))}

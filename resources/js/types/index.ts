@@ -18,3 +18,13 @@ export interface Book {
     created_at: string;
     updated_at: string;
 }
+
+export interface Chapter {
+    id: number;
+    book_id: number;
+    title: string;
+    content: string;
+    order_index: number;
+    created_at: string;
+    updated_at: string;
+}
