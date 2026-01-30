@@ -13,6 +13,22 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * Get the reading progress for the user.
+     */
+    public function readingProgress(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ReadingProgress::class);
+    }
+
+    /**
+     * Get the daily activities for the user.
+     */
+    public function dailyActivities(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(DailyActivity::class);
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>

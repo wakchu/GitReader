@@ -6,4 +6,60 @@
 @theme {
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --color-gh-bg: var(--gh-bg);
+    --color-gh-text: var(--gh-text);
+    --color-gh-link: var(--gh-link);
+    --color-gh-border: var(--gh-border);
+    --color-gh-header-bg: var(--gh-header-bg);
+    --color-gh-canvas-subtle: var(--gh-canvas-subtle);
+    --color-gh-btn-bg: var(--gh-btn-bg);
+    --color-gh-btn-border: var(--gh-btn-border);
+    --color-gh-code-bg: var(--gh-code-bg);
+    --color-gh-contribution-level-0: var(--gh-contribution-level-0);
+    --color-gh-contribution-level-1: var(--gh-contribution-level-1);
+    --color-gh-contribution-level-2: var(--gh-contribution-level-2);
+    --color-gh-contribution-level-3: var(--gh-contribution-level-3);
+    --color-gh-contribution-level-4: var(--gh-contribution-level-4);
+}
+
+/* GitHub Primer Colors */
+:root {
+    --gh-bg: #ffffff;
+    --gh-text: #24292f;
+    --gh-link: #0969da;
+    --gh-border: #d0d7de;
+    --gh-header-bg: #f6f8fa;
+    --gh-canvas-subtle: #f6f8fa;
+    --gh-btn-bg: #f6f8fa;
+    --gh-btn-border: rgba(27, 31, 36, 0.15);
+    --gh-code-bg: #f6f8fa;
+
+    /* Contribution Graph (Light) */
+    --gh-contribution-level-0: #ebedf0;
+    --gh-contribution-level-1: #9be9a8;
+    --gh-contribution-level-2: #40c463;
+    --gh-contribution-level-3: #30a14e;
+    --gh-contribution-level-4: #216e39;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --gh-bg: #0d1117;
+        --gh-text: #c9d1d9;
+        --gh-link: #58a6ff;
+        --gh-border: #30363d;
+        --gh-header-bg: #161b22;
+        --gh-canvas-subtle: #161b22;
+        --gh-btn-bg: #21262d;
+        --gh-btn-border: #363b42;
+        --gh-code-bg: #161b22;
+
+        /* Contribution Graph (Dark) */
+        --gh-contribution-level-0: #161b22;
+        --gh-contribution-level-1: #0e4429;
+        --gh-contribution-level-2: #006d32;
+        --gh-contribution-level-3: #26a641;
+        --gh-contribution-level-4: #39d353;
+    }
 }
