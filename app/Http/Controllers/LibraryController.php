@@ -11,31 +11,9 @@ class LibraryController extends Controller
 {
     public function index()
     {
-        try {
-            $books = Book::query()
-                ->latest()
-                ->get();
-        } catch (\Exception $e) {
-            // Fallback mock data for preview/testing without DB
-            $books = [
-                [
-                    'id' => 1,
-                    'title' => 'The Pragmatic Programmer',
-                    'author' => 'David Thomas, Andrew Hunt',
-                    'cover_image' => null,
-                    'total_chapters' => 12,
-                    'file_path' => 'mock.epub',
-                ],
-                [
-                    'id' => 2,
-                    'title' => 'Clean Code',
-                    'author' => 'Robert C. Martin',
-                    'cover_image' => null,
-                    'total_chapters' => 17,
-                    'file_path' => 'mock2.epub',
-                ]
-            ];
-        }
+        $books = Book::query()
+            ->latest()
+            ->get();
 
         return Inertia::render('Library/Index', [
             'books' => $books,
