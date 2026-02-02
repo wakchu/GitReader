@@ -1,11 +1,10 @@
-
 import AppLayout from '@/layouts/AppLayout';
 import { Book, Chapter } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { useEffect, useRef } from 'react';
-
+import { Icons } from '@/components/Icons';
 
 interface Props {
     book: Book;
@@ -16,7 +15,7 @@ interface Props {
 }
 
 export default function ChapterShow({ book, chapter, prevChapter, nextChapter, savedScrollPosition }: Props) {
-    // Determine number of lines (fake)
+    // Determine number of lines
     const lineCount = chapter.content.split('\n').length;
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -65,71 +64,140 @@ export default function ChapterShow({ book, chapter, prevChapter, nextChapter, s
     
     return (
         <AppLayout title={`${chapter.title} - ${book.title}`}>
-            <div className="bg-gh-canvas-subtle border-b border-gh-border sticky top-14 z-40">
-                <div className="container mx-auto px-4 md:px-6 py-4">
-                     <div className="flex items-center gap-2 text-xl truncate">
-                         <Link href="/" className="text-blue-500 hover:underline">{book.author}</Link>
-                         <span className="text-gray-500">/</span>
-                         <Link href={`/${book.id}`} className="text-blue-500 hover:underline font-semibold">{book.title}</Link>
-                         <span className="text-gray-500">/</span>
-                         <span className="font-semibold text-gh-text truncate">{chapter.title}</span>
+            {/* Sticky Header with Breadcrumbs */}
+            <div className="bg-[#0d1117] border-b border-[#30363d] sticky top-0 z-40">
+                <div className="container mx-auto px-4 md:px-6 py-3 flex items-center justify-between">
+                     <div className="flex items-center gap-2 text-sm text-[#7d8590] overflow-hidden whitespace-nowrap">
+                         <div className="flex items-center hover:bg-[#1f242c] rounded px-2 py-1 transition-colors">
+                            <Link href="/" className="text-blue-400 hover:underline">{book.author}</Link>
+                         </div>
+                         <span>/</span>
+                         <div className="flex items-center hover:bg-[#1f242c] rounded px-2 py-1 transition-colors">
+                            <Link href={`/${book.id}`} className="text-blue-400 hover:underline font-semibold">{book.title}</Link>
+                         </div>
+                         <span>/</span>
+                         <div className="flex items-center hover:bg-[#1f242c] rounded px-2 py-1 transition-colors">
+                            <span className="font-semibold text-[#e6edf3] truncate">{chapter.title}</span>
+                         </div>
+                     </div>
+                     
+                     {/* Sticky Actions */}
+                     <div className="hidden md:flex items-center gap-2">
+                        <button className="flex items-center gap-1 px-2 py-1 text-xs font-medium text-[#c9d1d9] bg-[#21262d] border border-[#30363d] rounded-md hover:bg-[#30363d] transition-colors">
+                            Go to file
+                        </button>
                      </div>
                 </div>
             </div>
 
-            <div className="container mx-auto px-4 md:px-6 py-6">
+            <div className="container mx-auto px-4 md:px-6 py-6 max-w-[100vw] overflow-hidden">
                 
-                {/* Blob Header */}
-                <div className="border border-gh-border border-b-0 rounded-t-md bg-gh-header-bg p-3 flex items-center justify-between text-xs text-gh-text">
-                    <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2 font-mono">
-                            <span className="font-semibold">{lineCount} lines</span>
-                            <span className="text-gray-500">({lineCount} sloc)</span>
-                        </div>
-                        <span className="text-gray-500">{chapter.content.length} Bytes</span>
-                    </div>
-
+                {/* File Header Bar */}
+                <div className="mb-4 flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                         <div className="flex items-center border border-gh-btn-border rounded-md overflow-hidden">
-                             <button className="px-3 py-1 bg-white dark:bg-[#0d1117] font-medium border-r border-gh-btn-border">Code</button>
-                             <button className="px-3 py-1 hover:bg-gray-100 dark:hover:bg-[#21262d]">Blame</button>
+                         <div className="flex items-center gap-2 text-xs text-[#7d8590] font-mono">
+                            <span className="font-semibold text-[#e6edf3]">{book.author}</span>
+                            <span>update {chapter.title}</span>
                          </div>
-                         
-                         <div className="flex items-center gap-2">
-                             {prevChapter ? (
-                                 <Link 
-                                    href={`/${book.id}/blob/${prevChapter.id}`} 
-                                    className="px-3 py-1 bg-gh-btn-bg border border-gh-btn-border rounded-md hover:bg-gray-200 dark:hover:bg-[#30363d] transition-colors"
-                                 >
-                                     Prev
-                                 </Link>
-                             ) : (
-                                 <button disabled className="px-3 py-1 bg-gh-btn-bg border border-gh-btn-border rounded-md opacity-50 cursor-not-allowed">Prev</button>
-                             )}
-                             
-                             {nextChapter ? (
-                                 <Link 
-                                    href={`/${book.id}/blob/${nextChapter.id}`} 
-                                    className="px-3 py-1 bg-gh-btn-bg border border-gh-btn-border rounded-md hover:bg-gray-200 dark:hover:bg-[#30363d] transition-colors"
-                                 >
-                                     Next
-                                 </Link>
-                             ) : (
-                                 <button disabled className="px-3 py-1 bg-gh-btn-bg border border-gh-btn-border rounded-md opacity-50 cursor-not-allowed">Next</button>
-                             )}
-                         </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-[#7d8590]">
+                        <span>Latests commit <span className="font-mono text-[#e6edf3]">view-history</span></span>
+                        <div className="flex items-center gap-1 p-1 hover:bg-[#21262d] rounded cursor-pointer">
+                            <Icons.History />
+                            <span className="font-semibold text-[#e6edf3]">History</span>
+                        </div>
                     </div>
                 </div>
 
-                {/* Blob Content */}
-                <div ref={scrollContainerRef} className="border border-gh-border rounded-b-md bg-white dark:bg-[#0d1117] overflow-x-auto flex text-sm max-h-[calc(100vh-250px)] overflow-y-auto">
-                    {/* Content */}
-                    <div className="p-8 w-full prose dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gh-code-bg prose-pre:border prose-pre:border-gh-border prose-headings:border-b prose-headings:border-gh-border prose-headings:pb-2 prose-img:rounded-md">
-                        <div 
-                            dangerouslySetInnerHTML={{ __html: chapter.content }} 
-                            className="epub-content"
-                        />
+                {/* Blob Container */}
+                <div className="border border-[#30363d] rounded-md bg-[#0d1117] flex flex-col">
+                    
+                    {/* Blob Header (Controls) */}
+                    <div className="border-b border-[#30363d] bg-[#0d1117] p-2 flex items-center justify-between text-xs text-[#7d8590] rounded-t-md">
+                        <div className="flex items-center gap-4">
+                            <div className="flex bg-[#21262d] border border-[#30363d] rounded-md p-0.5">
+                                <button className="px-3 py-1 bg-[#30363d] text-[#e6edf3] font-medium rounded-sm">Code</button>
+                                <button className="px-3 py-1 hover:text-[#e6edf3] transition-colors">Blame</button>
+                            </div>
+                            <div className="hidden md:flex items-center gap-2 font-mono border-l border-[#30363d] pl-4">
+                                <span className="text-[#e6edf3] font-semibold">{lineCount} lines</span>
+                                <span>({lineCount} sloc)</span>
+                                <span>{chapter.content.length} Bytes</span>
+                            </div>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                             <div className="flex items-center border-r border-[#30363d] pr-2 mr-2 gap-1">
+                                 <button className="p-1.5 hover:bg-[#21262d] rounded-md text-[#7d8590] hover:text-[#e6edf3]" aria-label="Raw">
+                                    Raw
+                                 </button>
+                                 <button className="p-1.5 hover:bg-[#21262d] rounded-md text-[#7d8590] hover:text-[#e6edf3]" aria-label="Copy raw">
+                                    <Icons.Copy />
+                                 </button>
+                                 <button className="p-1.5 hover:bg-[#21262d] rounded-md text-[#7d8590] hover:text-[#e6edf3]" aria-label="Download">
+                                    <Icons.Download />
+                                 </button>
+                             </div>
+                             <div className="flex items-center gap-1">
+                                 <button className="p-1.5 hover:bg-[#21262d] rounded-md text-[#7d8590] hover:text-[#e6edf3]" aria-label="Edit">
+                                    <Icons.Pencil />
+                                 </button>
+                                 <button className="p-1.5 hover:bg-[#21262d] rounded-md text-[#7d8590] hover:text-[#e6edf3]" aria-label="More actions">
+                                    <Icons.TriangleDown />
+                                 </button>
+                             </div>
+                        </div>
                     </div>
+
+                    {/* Blob Content */}
+                    <div ref={scrollContainerRef} className="flex overflow-x-auto text-sm max-h-[calc(100vh-200px)] overflow-y-auto bg-[#0d1117] rounded-b-md">
+                        {/* Line Numbers */}
+                        <div className="flex flex-col text-right select-none min-w-[50px] border-r border-[#30363d] py-4 bg-[#0d1117]">
+                            {Array.from({ length: lineCount }).map((_, i) => (
+                                <div key={i} className="px-3 text-[#6e7681] font-mono text-[12px] leading-[1.5] h-[24px]">
+                                    {i + 1}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Content */}
+                        <div className="w-full py-4 px-8 prose dark:prose-invert max-w-none 
+                            prose-code:before:content-none prose-code:after:content-none 
+                            prose-pre:bg-transparent prose-pre:p-0 prose-pre:m-0 prose-pre:border-0
+                            prose-headings:border-b prose-headings:border-[#30363d] prose-headings:pb-2 prose-img:rounded-md
+                            text-[#e6edf3] font-sans"
+                        >
+                            <div 
+                                dangerouslySetInnerHTML={{ __html: chapter.content }} 
+                                className="epub-content leading-[1.6]" // Slightly adjusting line height for readability
+                            />
+                        </div>
+                    </div>
+                </div>
+                
+                {/* Navigation Footer */}
+                <div className="mt-4 flex justify-between">
+                     {prevChapter ? (
+                         <Link 
+                            href={`/${book.id}/blob/${prevChapter.id}`} 
+                            className="px-3 py-1 bg-[#21262d] border border-[#30363d] rounded-md text-[#c9d1d9] hover:bg-[#30363d] transition-colors text-xs font-medium"
+                         >
+                             Previous Chapter
+                         </Link>
+                     ) : (
+                         <div></div>
+                     )}
+                     
+                     {nextChapter ? (
+                         <Link 
+                            href={`/${book.id}/blob/${nextChapter.id}`} 
+                            className="px-3 py-1 bg-[#21262d] border border-[#30363d] rounded-md text-[#c9d1d9] hover:bg-[#30363d] transition-colors text-xs font-medium"
+                         >
+                             Next Chapter
+                         </Link>
+                     ) : (
+                         <div></div>
+                     )}
                 </div>
 
             </div>
