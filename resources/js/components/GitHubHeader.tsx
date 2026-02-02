@@ -47,44 +47,24 @@ export default function GitHubHeader() {
                 <Link href="/" className="transition-colors hover:text-gray-300">
                     Dashboard
                 </Link>
-                <a href="#" className="transition-colors hover:text-gray-300">
-                    Issues
-                </a>
-                <a href="#" className="transition-colors hover:text-gray-300">
-                    Codespaces
-                </a>
-                <a href="#" className="transition-colors hover:text-gray-300">
-                    Marketplace
-                </a>
-                <a href="#" className="transition-colors hover:text-gray-300">
-                    Explore
-                </a>
+                <span className="text-gray-500 cursor-not-allowed" title="Not available in local mode">Pull Requests</span>
+                <span className="text-gray-500 cursor-not-allowed" title="Not available in local mode">Issues</span>
+                <span className="text-gray-500 cursor-not-allowed" title="Not available in local mode">Codespaces</span>
+                <span className="text-gray-500 cursor-not-allowed" title="Not available in local mode">Marketplace</span>
+                <span className="text-gray-500 cursor-not-allowed" title="Not available in local mode">Explore</span>
             </nav>
 
             <div className="ml-auto flex items-center gap-3">
-                {/* Create Icon (+ logic) */}
-                <div className="hidden md:block">
-                    <button className="text-white hover:text-gray-300">
-                        <svg
-                            aria-hidden="true"
-                            height="16"
-                            viewBox="0 0 16 16"
-                            version="1.1"
-                            width="16"
-                            data-view-component="true"
-                            className="fill-current"
-                        >
-                            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.25v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5a.75.75 0 0 1 1.5 0Z"></path>
-                        </svg>
-                    </button>
+                {/* Static Local User Avatar */}
+                <div className="flex items-center gap-2">
+                     <span className="text-xs font-semibold hidden md:block">GitReader User</span>
+                     <img
+                        src="https://github.com/identicons/jasonlong.png"
+                        alt="Avatar"
+                        className="h-5 w-5 cursor-pointer rounded-full border border-gray-600 hover:opacity-80"
+                        title="Local User"
+                     />
                 </div>
-
-                {/* Avatar */}
-                <img
-                    src="https://github.com/identicons/jasonlong.png"
-                    alt="Avatar"
-                    className="h-5 w-5 cursor-pointer rounded-full border border-gray-600 hover:opacity-80"
-                />
             </div>
         </header>
     );

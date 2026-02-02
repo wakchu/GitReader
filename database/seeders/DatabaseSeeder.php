@@ -15,9 +15,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'gitreader@local.app'],
+            [
+                'name' => 'GitReader User',
+                'password' => bcrypt('password'), // Not used but required
+            ]
+        );
     }
 }
