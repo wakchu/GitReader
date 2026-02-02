@@ -5,7 +5,7 @@ import { Head, Link } from '@inertiajs/react';
 import axios from 'axios';
 import { debounce } from 'lodash';
 import { useEffect, useRef } from 'react';
-import ReactMarkdown from 'react-markdown';
+
 
 interface Props {
     book: Book;
@@ -123,18 +123,12 @@ export default function ChapterShow({ book, chapter, prevChapter, nextChapter, s
 
                 {/* Blob Content */}
                 <div ref={scrollContainerRef} className="border border-gh-border rounded-b-md bg-white dark:bg-[#0d1117] overflow-x-auto flex text-sm max-h-[calc(100vh-250px)] overflow-y-auto">
-                    {/* Line Numbers */}
-                    <div className="bg-white dark:bg-[#0d1117] border-r border-gh-border text-right text-gray-400 select-none py-4 px-3 font-mono text-xs flex flex-col gap-[0.125rem] min-w-[50px]">
-                        {Array.from({ length: lineCount }).map((_, i) => (
-                            <span key={i} className="leading-6">{i + 1}</span>
-                        ))}
-                    </div>
-                    
-                    {/* Code / Content */}
-                    <div className="p-8 w-full prose dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gh-code-bg prose-pre:border prose-pre:border-gh-border">
-                        <ReactMarkdown>
-                            {chapter.content}
-                        </ReactMarkdown>
+                    {/* Content */}
+                    <div className="p-8 w-full prose dark:prose-invert max-w-none prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gh-code-bg prose-pre:border prose-pre:border-gh-border prose-headings:border-b prose-headings:border-gh-border prose-headings:pb-2 prose-img:rounded-md">
+                        <div 
+                            dangerouslySetInnerHTML={{ __html: chapter.content }} 
+                            className="epub-content"
+                        />
                     </div>
                 </div>
 

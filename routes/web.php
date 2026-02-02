@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LibraryController::class, 'index'])->name('library.index');
 Route::post('/books', [LibraryController::class, 'store'])->name('books.store');
+Route::post('/books/scan', [LibraryController::class, 'scan'])->name('books.scan');
 
 // Repository View (Introduction / File List)
 Route::get('/{book}', [BookController::class, 'show'])->name('books.show');

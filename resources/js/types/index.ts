@@ -28,3 +28,13 @@ export interface Chapter {
     created_at: string;
     updated_at: string;
 }
+export interface ReadingProgress {
+    id: number;
+    user_id: number;
+    book_id: number;
+    current_chapter_id: number;
+    scroll_position: number;
+    last_read_at: string;
+    created_at: string;
+    updated_at: string;
+}

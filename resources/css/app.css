@@ -17,6 +17,20 @@
     --color-gh-btn-border: var(--gh-btn-border);
     --color-gh-code-bg: var(--gh-code-bg);
     --color-gh-global-header-bg: var(--gh-global-header-bg);
+    
+    /* New Primer Mappings */
+    --color-fg-default: var(--gh-text);
+    --color-fg-muted: var(--gh-fg-muted);
+    --color-fg-subtle: var(--gh-fg-subtle);
+    --color-canvas-default: var(--gh-bg);
+    --color-canvas-subtle: var(--gh-canvas-subtle);
+    --color-border-default: var(--gh-border);
+    --color-border-muted: var(--gh-border-muted);
+    --color-neutral-muted: var(--gh-neutral-muted);
+    --color-accent-fg: var(--gh-link);
+    --color-danger-fg: var(--gh-danger-fg);
+    --color-header-bg: var(--gh-header-bg);
+
     --color-gh-contribution-level-0: var(--gh-contribution-level-0);
     --color-gh-contribution-level-1: var(--gh-contribution-level-1);
     --color-gh-contribution-level-2: var(--gh-contribution-level-2);
@@ -28,14 +42,19 @@
 :root {
     --gh-bg: #ffffff;
     --gh-text: #24292f;
+    --gh-fg-muted: #57606a;
+    --gh-fg-subtle: #6e7781;
     --gh-link: #0969da;
     --gh-border: #d0d7de;
+    --gh-border-muted: #d8dee4;
+    --gh-neutral-muted: #afb8c1; /* For icons mostly */
     --gh-header-bg: #f6f8fa; /* Subheader / Repo Header */
     --gh-global-header-bg: #24292f; /* Top Navbar */
     --gh-canvas-subtle: #f6f8fa;
     --gh-btn-bg: #f6f8fa;
     --gh-btn-border: rgba(27, 31, 36, 0.15);
     --gh-code-bg: #f6f8fa;
+    --gh-danger-fg: #cf222e;
 
     /* Contribution Graph (Light) */
     --gh-contribution-level-0: #ebedf0;
@@ -49,14 +68,19 @@
     :root {
         --gh-bg: #0d1117;
         --gh-text: #c9d1d9;
+        --gh-fg-muted: #8b949e;
+        --gh-fg-subtle: #484f58; /* check this */
         --gh-link: #58a6ff;
         --gh-border: #30363d;
+        --gh-border-muted: #21262d;
+        --gh-neutral-muted: #6e7681;
         --gh-header-bg: #161b22;
         --gh-global-header-bg: #161b22;
         --gh-canvas-subtle: #161b22;
         --gh-btn-bg: #21262d;
         --gh-btn-border: #363b42;
         --gh-code-bg: #161b22;
+        --gh-danger-fg: #f85149;
 
         /* Contribution Graph (Dark) */
         --gh-contribution-level-0: #161b22;
@@ -65,4 +89,49 @@
         --gh-contribution-level-3: #26a641;
         --gh-contribution-level-4: #39d353;
     }
+}
+/* EPUB Content Overrides for Stealth Mode */
+.epub-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    line-height: 1.5; /* Proper prose line height */
+    color: var(--gh-text);
+}
+
+.epub-content p {
+    margin-bottom: 0 !important; /* Fix for PDF-converted EPUBs that use P tags for lines */
+    text-indent: 0 !important;
+}
+
+/* Maintain structure for empty paragraphs (often used as spacers in these bad conversions) */
+.epub-content p:empty, .epub-content p:blank {
+    min-height: 1.25em; 
+}
+
+/* If the EPUB uses line breaks explicitly */
+.epub-content br {
+    display: block;
+    content: "";
+    margin-top: 0;
+}
+
+.epub-content h1, .epub-content h2, .epub-content h3, .epub-content h4, .epub-content h5, .epub-content h6 {
+    margin-top: 24px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.epub-content h1 { font-size: 2em; border-bottom: 1px solid var(--gh-border-muted); padding-bottom: 0.3em; }
+.epub-content h2 { font-size: 1.5em; border-bottom: 1px solid var(--gh-border-muted); padding-bottom: 0.3em; }
+
+/* Obfuscate Calibre/Epub specific classes */
+.epub-content .calibre1, .epub-content .calibre2, .epub-content .calibre3 {
+    text-indent: 0 !important;
+    margin: 0 0 16px 0 !important;
+    font-size: 1rem !important; /* Normalize font sizes */
+}
+
+/* Hide typical EPUB page numbers or artifacts if needed */
+.epub-content a[id] {
+    scroll-margin-top: 80px; /* For anchor linking with sticky header */
 }

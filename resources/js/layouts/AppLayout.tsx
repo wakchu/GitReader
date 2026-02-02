@@ -1,6 +1,6 @@
 
 import GitHubHeader from '@/components/GitHubHeader';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import React from 'react';
 
 interface Props {
@@ -16,6 +16,24 @@ export default function AppLayout({ title, children }: Props) {
             <GitHubHeader />
             
             <main className="min-h-[calc(100vh-64px)] w-full">
+                {/* Flash Messages */}
+                {/* @ts-ignore */}
+                {usePage().props.flash?.success && (
+                    <div className="bg-[var(--color-accent-fg)] text-white px-4 py-3 mb-4 mx-auto max-w-[1280px] rounded-md mt-4 flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                        {/* @ts-ignore */}
+                        {usePage().props.flash.success}
+                    </div>
+                )}
+                {/* @ts-ignore */}
+                {usePage().props.flash?.error && (
+                    <div className="bg-[var(--color-danger-fg)] text-white px-4 py-3 mb-4 mx-auto max-w-[1280px] rounded-md mt-4 flex items-center gap-2">
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        {/* @ts-ignore */}
+                        {usePage().props.flash.error}
+                    </div>
+                )}
+
                 {children}
             </main>
             
