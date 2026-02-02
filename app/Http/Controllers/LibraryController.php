@@ -3,17 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\ReadingProgress;
 use App\Services\EpubService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class LibraryController extends Controller
 {
     public function index()
     {
-        $books = Book::query()
+        $books = Book::with(['readingProgress' => function($query) {
+                $query->where('user_id', Auth::id() ?? 1);
+            }])
             ->latest()
-            ->get();
+            ->get()
+            ->map(function($book) {
+                // Flatten progress
+                $book->progress = $book->readingProgress->first();
+                unset($book->readingProgress);
+                return $book;
+            });
 
         return Inertia::render('Library/Index', [
             'books' => $books,

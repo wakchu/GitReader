@@ -13,3 +13,6 @@ Route::get('/{book}', [BookController::class, 'show'])->name('books.show');
 
 // Blob View (Reading a specific chapter)
 Route::get('/{book}/blob/{chapter}', [ChapterController::class, 'show'])->name('chapters.show');
+
+// Save Reading Progress
+Route::post('/books/{book}/progress', [App\Http\Controllers\ReadingProgressController::class, 'store'])->name('reading.progress');

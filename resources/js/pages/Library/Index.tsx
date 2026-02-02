@@ -1,10 +1,10 @@
 
 import AppLayout from '@/layouts/AppLayout';
-import { Book } from '@/types';
-import { Head, Link, useForm, usePage } from '@inertiajs/react'; // Added usePage if needed
+import { Book, ReadingProgress } from '@/types';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import React, { useState } from 'react';
 
-export default function LibraryIndex({ books }: { books: Book[] }) {
+export default function LibraryIndex({ books }: { books: (Book & { progress?: ReadingProgress })[] }) {
     // Mock user data
     const user = {
         name: 'GitReader User',

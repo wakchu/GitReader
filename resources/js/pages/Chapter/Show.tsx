@@ -2,7 +2,9 @@
 import AppLayout from '@/layouts/AppLayout';
 import { Book, Chapter } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-import React from 'react';
+import axios from 'axios';
+import { debounce } from 'lodash';
+import { useEffect, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 
 interface Props {
@@ -10,11 +12,56 @@ interface Props {
     chapter: Chapter;
     prevChapter?: { id: number, title: string };
     nextChapter?: { id: number, title: string };
+    savedScrollPosition?: string;
 }
 
-export default function ChapterShow({ book, chapter, prevChapter, nextChapter }: Props) {
+export default function ChapterShow({ book, chapter, prevChapter, nextChapter, savedScrollPosition }: Props) {
     // Determine number of lines (fake)
     const lineCount = chapter.content.split('\n').length;
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+    // Auto-restore scroll position
+    useEffect(() => {
+        if (savedScrollPosition && scrollContainerRef.current) {
+            const percentage = parseFloat(savedScrollPosition);
+            if (!isNaN(percentage)) {
+                // Wait slightly for layout
+                setTimeout(() => {
+                    if (scrollContainerRef.current) {
+                        const maxScroll = scrollContainerRef.current.scrollHeight - scrollContainerRef.current.clientHeight;
+                        scrollContainerRef.current.scrollTop = maxScroll * (percentage / 100);
+                    }
+                }, 100);
+            }
+        }
+    }, [savedScrollPosition, chapter.id]);
+
+    // Save scroll position with debounce
+    useEffect(() => {
+        const container = scrollContainerRef.current;
+        if (!container) return;
+
+        const handleScroll = debounce(() => {
+            if (!container) return;
+            const maxScroll = container.scrollHeight - container.clientHeight;
+            const currentScroll = container.scrollTop;
+            
+            // Avoid division by zero
+            const percentage = maxScroll > 0 ? (currentScroll / maxScroll) * 100 : 0;
+            
+            axios.post(`/books/${book.id}/progress`, {
+                chapter_id: chapter.id,
+                scroll_position: percentage.toFixed(2),
+                progress_percent: 0 // Placeholder logic for now
+            });
+        }, 1000);
+
+        container.addEventListener('scroll', handleScroll);
+        return () => {
+            handleScroll.cancel();
+            container.removeEventListener('scroll', handleScroll);
+        };
+    }, [book.id, chapter.id]);
     
     return (
         <AppLayout title={`${chapter.title} - ${book.title}`}>
@@ -75,7 +122,7 @@ export default function ChapterShow({ book, chapter, prevChapter, nextChapter }:
                 </div>
 
                 {/* Blob Content */}
-                <div className="border border-gh-border rounded-b-md bg-white dark:bg-[#0d1117] overflow-x-auto flex text-sm">
+                <div ref={scrollContainerRef} className="border border-gh-border rounded-b-md bg-white dark:bg-[#0d1117] overflow-x-auto flex text-sm max-h-[calc(100vh-250px)] overflow-y-auto">
                     {/* Line Numbers */}
                     <div className="bg-white dark:bg-[#0d1117] border-r border-gh-border text-right text-gray-400 select-none py-4 px-3 font-mono text-xs flex flex-col gap-[0.125rem] min-w-[50px]">
                         {Array.from({ length: lineCount }).map((_, i) => (
